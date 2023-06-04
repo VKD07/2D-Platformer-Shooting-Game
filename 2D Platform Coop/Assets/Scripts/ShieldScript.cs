@@ -7,6 +7,7 @@ public class ShieldScript : MonoBehaviour
 {
     [SerializeField] bool activateShield;
     [SerializeField] float shieldDuration;
+    [SerializeField] GameObject shieldIndicator;
 
     private void Update()
     {
@@ -17,6 +18,7 @@ public class ShieldScript : MonoBehaviour
     {
         if(activateShield)
         {
+            shieldIndicator.SetActive(true);
             StartCoroutine(DisableShield());
         }
     }
@@ -24,6 +26,7 @@ public class ShieldScript : MonoBehaviour
     IEnumerator DisableShield()
     {
         yield return new WaitForSeconds(shieldDuration);
+        shieldIndicator.SetActive(false);
         activateShield = false;
     }
 

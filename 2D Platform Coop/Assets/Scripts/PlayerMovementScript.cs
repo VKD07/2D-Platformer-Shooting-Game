@@ -17,7 +17,6 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField] KeyCode right = KeyCode.D;
     [SerializeField] KeyCode jump = KeyCode.Space;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -12,15 +12,23 @@ public class ShootingScript : MonoBehaviour
     [SerializeField] float bulletSpeed;
     [SerializeField] KeyCode shootingKey = KeyCode.LeftAlt;
     [SerializeField] float fireRate = 1.0f;
-    public float currentFireTime;
+    [SerializeField] bool knockBack;
+    [SerializeField] float knockBackForce = 5f;
+    float currentFireTime;
+    Rigidbody2D rb;
 
     [Header("Bullet Settings")]
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float numberOfBullets = 50f;
     [SerializeField] Slider ammoSlider;
 
+    [Header("Animation")]
+    [SerializeField] Animator gunAnim;
+    [SerializeField] string shootingAnimName;
+
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         InitAmmoSlider();
     }
 
@@ -50,8 +58,11 @@ public class ShootingScript : MonoBehaviour
             }
             else if(numberOfBullets <= 0)
             {
+                gunAnim.SetBool(shootingAnimName, false);
                 return;
             }else{
+                //animation
+                gunAnim.SetBool(shootingAnimName, true);
                 currentFireTime = 0f;
                 //spawning bullets
                 GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 90f));
@@ -59,14 +70,26 @@ public class ShootingScript : MonoBehaviour
                 numberOfBullets--;
                 //handles the Sllider UI;
                 bulletObj.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.transform.right * bulletSpeed;
+                KnockBackForce(bulletObj);
                 Destroy(bulletObj, 3f);
             }
         }
         else if (Input.GetKeyUp(shootingKey))
         {
+            gunAnim.SetBool(shootingAnimName, false);
             currentFireTime = 0f;
         }
         ammoSlider.value = numberOfBullets;
+    }
+
+    void KnockBackForce(GameObject bulletObj)
+    {
+        if (knockBack)
+        {
+            var knockBackDirection = transform.position - bulletObj.transform.position;
+            knockBackDirection.Normalize();
+            rb.AddForce(knockBackDirection * knockBackForce, ForceMode2D.Impulse);
+        }
     }
 
     public void AddBullets(float additionalBullet)
