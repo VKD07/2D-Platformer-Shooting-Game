@@ -9,6 +9,7 @@ public class PlayerAttributes : MonoBehaviour
 {
     [SerializeField] float playerHealth = 100f;
     [SerializeField] Slider playerHealthSlider;
+    [SerializeField] ShieldScript shieldScript;
     void Start()
     {
         InitPlayerHealthSlider();
@@ -33,7 +34,10 @@ public class PlayerAttributes : MonoBehaviour
 
     public void DamagePlayer(float damage)
     {
-        playerHealth -= damage;
+        if (!shieldScript.ShieldActivated())
+        {
+            playerHealth -= damage;
+        }
     }
 
     public void AddPlayerHealth(float addHealth)

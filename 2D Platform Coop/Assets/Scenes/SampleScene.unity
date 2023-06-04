@@ -1252,6 +1252,7 @@ MonoBehaviour:
   powerUps:
   - {fileID: 8769216942635201152, guid: ff4f305df828bdd4c871885c5192b435, type: 3}
   - {fileID: 5229530878975086130, guid: bc37777d3260d7741a52bb049e41e09b, type: 3}
+  - {fileID: 8840927577470568320, guid: fbc286c44f1e6094e9251fd67adf0ad1, type: 3}
   spawnPoints:
   - {fileID: 1824348165}
   - {fileID: 2070837931}
@@ -2750,6 +2751,7 @@ GameObject:
   - component: {fileID: 857700425}
   - component: {fileID: 857700424}
   - component: {fileID: 857700426}
+  - component: {fileID: 857700427}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -2874,6 +2876,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 100
   playerHealthSlider: {fileID: 936212396}
+  shieldScript: {fileID: 857700427}
+--- !u!114 &857700427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857700418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6716dc864a243b48af478898cbc1f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateShield: 0
+  shieldDuration: 5
 --- !u!1 &889567173
 GameObject:
   m_ObjectHideFlags: 0
