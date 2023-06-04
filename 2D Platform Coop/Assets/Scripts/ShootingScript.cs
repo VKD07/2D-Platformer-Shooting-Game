@@ -10,15 +10,17 @@ public class ShootingScript : MonoBehaviour
     [Header("Shooting Settings")]
     [SerializeField] GameObject bullet;
     [SerializeField] float bulletSpeed;
-    [SerializeField] KeyCode shootingKey = KeyCode.LeftAlt;
+    [SerializeField] public KeyCode shootingKey = KeyCode.LeftAlt;
     [SerializeField] float fireRate = 1.0f;
+    float currentFireTime;
+
+    [Header("KnockBack Force")]
     [SerializeField] bool knockBack;
     [SerializeField] float knockBackForce = 5f;
-    float currentFireTime;
     Rigidbody2D rb;
 
     [Header("Bullet Settings")]
-    [SerializeField] Transform bulletSpawnPoint;
+    [SerializeField] public Transform bulletSpawnPoint;
     [SerializeField] float numberOfBullets = 50f;
     [SerializeField] Slider ammoSlider;
 
@@ -26,9 +28,12 @@ public class ShootingScript : MonoBehaviour
     [SerializeField] Animator gunAnim;
     [SerializeField] string shootingAnimName;
 
+    [SerializeField] PlayerSfx playerSfx;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerSfx = GetComponent<PlayerSfx>();
         InitAmmoSlider();
     }
 
@@ -56,16 +61,20 @@ public class ShootingScript : MonoBehaviour
             {
                 currentFireTime += Time.deltaTime;
             }
-            else if(numberOfBullets <= 0)
+            else if (numberOfBullets <= 0)
             {
                 gunAnim.SetBool(shootingAnimName, false);
                 return;
-            }else{
+            }
+            else
+            {
                 //animation
                 gunAnim.SetBool(shootingAnimName, true);
                 currentFireTime = 0f;
                 //spawning bullets
-                GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 90f));
+                GameObject bulletObj = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.Euler(0, 0, -90f));
+                //SFX
+                playerSfx.PlayMachineGunShot(0.3f);
                 //handles the ammo
                 numberOfBullets--;
                 //handles the Sllider UI;
@@ -96,7 +105,7 @@ public class ShootingScript : MonoBehaviour
     {
         float totalBullet = numberOfBullets + additionalBullet;
 
-        if(totalBullet > ammoSlider.maxValue)
+        if (totalBullet > ammoSlider.maxValue)
         {
             numberOfBullets = ammoSlider.maxValue;
         }

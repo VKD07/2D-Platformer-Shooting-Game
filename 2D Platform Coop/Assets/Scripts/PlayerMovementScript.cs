@@ -17,8 +17,12 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField] KeyCode right = KeyCode.D;
     [SerializeField] KeyCode jump = KeyCode.Space;
 
+    [Header("SFX")]
+    [SerializeField] PlayerSfx playerSfx;
+
     void Start()
     {
+        playerSfx = GetComponent<PlayerSfx>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -48,6 +52,7 @@ public class PlayerMovementScript : MonoBehaviour
         {
             if (Input.GetKeyDown(jump))
             {
+                playerSfx.PlayJumpSound(0.6f);
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
         }
@@ -57,6 +62,14 @@ public class PlayerMovementScript : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "PowerUps")
+        {
+            playerSfx.PlayPickUpSound(1f);
         }
     }
 
@@ -77,6 +90,4 @@ public class PlayerMovementScript : MonoBehaviour
     // menu start
     // game over
     // 
-
-
 }

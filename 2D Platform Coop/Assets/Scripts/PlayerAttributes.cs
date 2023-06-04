@@ -19,8 +19,8 @@ public class PlayerAttributes : MonoBehaviour
     void Update()
     {
         UpdatePlayerHealthUI();
+        DeathHandler();
     }
-
     private void InitPlayerHealthSlider()
     {
         playerHealthSlider.maxValue = playerHealth;
@@ -51,6 +51,14 @@ public class PlayerAttributes : MonoBehaviour
         else
         {
             playerHealth += addHealth;
+        }
+    }
+
+    private void DeathHandler()
+    {
+        if(playerHealth <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 }
